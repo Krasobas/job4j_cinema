@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+<head th:include="components/head :: head"></head>
+<body>
+<div th:replace="components/header :: header('main')"></div>
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+    <main role="main" class="w-50 text-center">
+        <h1 class="cover-heading">Welcome to Job4j Cinema</h1>
+        <p class="lead">
+            This is a study project written in <code>Java</code> using the <code>Spring MVC</code> framework,
+            <code>PostgreSQL</code>, <code>sql2o</code>, <code>Liquibase</code> and <code>Thymeleaf</code>.
+        </p>
+        <p class="lead">
+            <a th:href="@{/sessions/list}" class="btn btn-lg btn-secondary text-white btn-dark">Explore</a>
+        </p>
+    </main>
+</div>
+<footer th:include="components/footer:: footer"></footer>
+</body>
+</html>

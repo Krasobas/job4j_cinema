@@ -1,0 +1,22 @@
+<header th:fragment="header(activePage)">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      <a class="navbar-brand" href="/">Job4j Cinema</a>
+      <div class="collapse navbar-collapse justify-content-between">
+        <div class="navbar-nav me-auto">
+          <a class="nav-item nav-link" href="/" th:classappend="${activePage == 'main' ? 'active' : ''}">Main</a>
+          <a class="nav-item nav-link" th:href="@{/sessions}" th:classappend="${activePage == 'sessions' ? 'active' : ''}">Showtimes</a>
+          <a class="nav-item nav-link" th:href="@{/films}" th:classappend="${activePage == 'films' ? 'active' : ''}">Films</a>
+        </div>
+  <!--      <div class="d-flex" th:if="${user.name == 'Guest'}">-->
+  <!--        <a class="nav-link text-secondary me-3" th:href="@{/users/register}">Sign in</a>-->
+  <!--        <a class="nav-link text-secondary" th:href="@{/users/login}">Log in</a>-->
+  <!--      </div>-->
+  <!--      <div class="d-flex" th:if="${user.name != 'Гость'}">-->
+  <!--        <a class="nav-link text-secondary me-3" href="#" th:text="${user.name}"></a>-->
+  <!--        <a class="nav-link text-secondary" th:href="@{/users/logout}">Exit</a>-->
+  <!--      </div>-->
+      </div>
+    </div>
+  </nav>
+</header>
