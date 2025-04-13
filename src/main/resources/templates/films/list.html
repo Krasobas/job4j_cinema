@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:include="components/head :: head"></head>
+<head th:insert="~{components/head:: head}"></head>
 <body>
-<div th:replace="components/header :: header('films')"></div>
+<div th:replace="~{components/header :: header('films')}"></div>
 <div class="container mt-5">
   <div class="row" th:each="film: ${films}">
     <div class="col-12 col-md-6 offset-md-3">
@@ -24,6 +24,6 @@
     </div>
   </div>
 </div>
-<footer th:include="components/footer :: footer"></footer>
+<footer th:insert="~{components/footer :: footer}"></footer>
 </body>
 </html>

@@ -18,9 +18,9 @@ public class FileController {
     @GuardedBy("this")
     private final FileService fileService;
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable int id) {
-        var contentOptional = fileService.getFileById(id);
+    @GetMapping("/{fileId}")
+    public ResponseEntity<?> getById(@PathVariable int fileId) {
+        var contentOptional = fileService.getFileById(fileId);
         if (contentOptional.isEmpty()) {
             return ResponseEntity.notFound().build();
         }

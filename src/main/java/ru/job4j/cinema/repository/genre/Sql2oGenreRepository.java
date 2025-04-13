@@ -37,4 +37,28 @@ public class Sql2oGenreRepository implements GenreRepository {
             }
         }
     }
+
+    @Override
+    public Optional<Genre> save(Genre genre) {
+        try (var connection = sql2o.open()) {
+            try (var query = connection.createQuery("INSERT INTO genres(name) VALUES (:name)", true)) {
+                int generatedId = query.addParameter("name", genre.getName())
+                        .executeUpdate()
+                        .getKey(Integer.class);
+                genre.setId(generatedId);
+                return Optional.of(genre);
+            }
+        }
+    }
+
+    @Override
+    public boolean deleteById(int id) {
+        try (var connection = sql2o.open()) {
+            try (var query = connection.createQuery("DELETE FROM genres WHERE id = :id")) {
+                query.addParameter("id", id);
+                int affectedRows = query.executeUpdate().getResult();
+                return affectedRows > 0;
+            }
+        }
+    }
 }

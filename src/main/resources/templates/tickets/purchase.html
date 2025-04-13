@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{components/head:: head}"></head>
+<body>
+<div th:replace="~{components/header :: header('')}"></div>
+<div class="container" th:object="${filmSession}">
+    <div class="mt-5 mb-5 row d-flex align-items-stretch">
+        <div class="col-md-4 d-flex flex-column justify-content-center">
+            <a th:href="@{/films/{id}(id=*{film.id})}" target="_blank">
+                <img th:src="@{/files/{fileId}(fileId=*{film.fileId})}" class="img-fluid w-100 rounded" alt="No image">
+            </a>
+        </div>
+        <div class="col-md-8">
+            <div class="card shadow-sm rounded p-3 h-100 position-relative">
+                <a th:href="@{/sessions}" class="btn-close position-absolute top-0 end-0 m-3"></a>
+                <div class="card-body d-flex flex-column justify-content-between">
+                    <h3 class="card-title" th:text="*{film.name}"></h3>
+                    <div class="card-text">
+                        <a th:href="@{/films/{id}(id=*{film.id})}" class="text-decoration-none text-secondary" target="_blank">
+                            <span data-bs-toggle="tooltip"
+                                  data-bs-placement="top"
+                                  title="Read full description"
+                                  th:text="${#strings.abbreviate(filmSession.film.description, 150)}"
+                            ></span>
+                        </a>
+                    </div>
+                    <div class="row small">
+                        <div class="col-md-4">
+                            <p class="card-text text-secondary"><strong>Year:</strong>
+                                <span class="text-secondary" th:text="*{film.year}"></span>
+                            </p>
+                        </div>
+                        <div class="col-md-4">
+                            <p class="card-text text-secondary"><strong>Genre:</strong>
+                                <span class="text-secondary" th:text="*{film.genre.name}"></span>
+                            </p>
+                        </div>
+                        <div class="col-md-4">
+                            <p class="card-text text-secondary"><strong>Minimal Age:</strong>
+                                <span class="text-secondary" th:text="*{film.minimalAge}"></span>
+                            </p>
+                        </div>
+                    </div>
+                    <hr>
+                    <form th:action="@{/tickets/buy}" method="post">
+                        <input type="hidden" id="sessionId" name="sessionId" th:value="*{id}">
+                        <div class="row">
+                            <div class="col-6 text-secondary">
+                                <div class="row">
+                                    <p class="fs-6 fw-bold col-4">
+                                        <span data-bs-toggle="tooltip"
+                                              data-bs-placement="top"
+                                              th:title="*{hall.description}">
+                                            <i class="bi bi-building me-1"></i>
+                                            <span th:text="*{hall.name}"></span>
+                                        </span>
+                                    </p>
+                                    <p class="fs-6 fw-bold col-8">
+                                        <span data-bs-toggle="tooltip"
+                                              data-bs-placement="top"
+                                              title="Showtime">
+                                            <i class="bi bi-clock me-1"></i>
+                                            <span th:text="${#temporals.format(filmSession.startTime, 'dd MMMM HH:mm')}"></span>
+                                        </span>
+                                    </p>
+                                </div>
+                                <div class="row mt-3">
+<!--                                    <p class="fs-6 fw-bold col-4">Price:</p>-->
+                                    <p class="fs-4 fw-bold col-8">
+                                        <span data-bs-toggle="tooltip"
+                                              data-bs-placement="bottom"
+                                              title="Price">
+                                            <span th:text="'€ ' + *{price}"></span>
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="col-6">
+                                <div>
+                                    <select id="rowNumber" class="form-select text-secondary" name="rowNumber" required>
+                                        <option value="">Select Row</option>
+                                        <option th:each="row : ${#numbers.sequence(1, filmSession.hall.rowCount)}"
+                                                th:value="${row}"
+                                                th:text="${row}">
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="mt-3">
+                                    <select id="placeNumber" class="form-select text-secondary" name="placeNumber" required>
+                                        <option value="">Select Seat</option>
+                                        <option th:each="seat : ${#numbers.sequence(1, filmSession.hall.placeCount)}"
+                                                th:value="${seat}"
+                                                th:text="${seat}">
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="d-flex justify-content-center mt-4">
+                            <button id="buy" class="btn btn-secondary text-white btn-dark w-25" type="submit" disabled>Buy</button>
+                        </div>
+                        <input type="hidden" id="userId" name="userId" th:value="${user.id}">
+                    </form>
+                </div>
+        </div>
+        </div>
+    </div>
+</div>
+<footer th:insert="~{components/footer :: footer}"></footer>
+<script th:inline="javascript">
+    const busyPlaces = new Map(Object.entries(/*[[${busyPlaces}]]*/ {}));
+    document.addEventListener("DOMContentLoaded", () => {
+        activateTooltips();
+        const rowSelect = document.getElementById("rowNumber");
+        const placeSelect = document.getElementById("placeNumber");
+        const buyButton = document.getElementById("buy");
+
+        rowSelect.addEventListener("change", () => updateSeatAvailability());
+        placeSelect.addEventListener("change", () => updateBuyButtonAvailability());
+
+        function updateSeatAvailability() {
+            const selectedRow = rowSelect.value;
+            const busySeats = busyPlaces.get(selectedRow) || [];
+
+            // Разблокируем все места
+            placeSelect.querySelectorAll("option").forEach(option => {
+                option.hidden = busySeats.includes(Number(option.value));
+            });
+            placeSelect.value = "";
+            updateBuyButtonAvailability();
+        }
+
+        function updateBuyButtonAvailability() {
+            buyButton.disabled = !(rowSelect.value && placeSelect.value);
+        }
+
+        function activateTooltips() {
+             [].slice
+                .call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+                .map(function (tooltipTriggerEl) {
+                    return new bootstrap.Tooltip(tooltipTriggerEl)
+                })
+        }
+    });
+</script>
+</body>
+</html>

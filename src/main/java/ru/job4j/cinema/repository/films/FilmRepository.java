@@ -9,4 +9,8 @@ public interface FilmRepository {
     Collection<Film> findAll();
 
     Optional<Film> findById(int id);
+
+    Optional<Film> save(Film film);
+
+    boolean deleteById(int id);
 }

@@ -1,10 +1,14 @@
 package ru.job4j.cinema.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Map;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Ticket {
     public static final Map<String, String> COLUMN_MAPPING = Map.of(
             "id", "id",

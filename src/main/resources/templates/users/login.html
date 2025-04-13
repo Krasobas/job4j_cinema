@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{components/head :: head}"></head>
+<body class="d-flex flex-column min-vh-100">
+<div th:replace="~{components/header :: header('login')}"></div>
+<div class="container flex-grow-1 d-flex justify-content-center align-items-center">
+  <div class="card shadow-sm w-50 position-relative">
+    <a th:href="@{/}" class="btn-close position-absolute top-0 end-0 m-3"></a>
+    <form class="card-body text-secondary" th:action="@{/users/login}" th:method="post">
+      <h2 class="card-title text-center">Authentication</h2>
+      <div th:if="${error}" class="alert alert-danger text-center" th:text="${error}"></div>
+      <div class="mb-3">
+        <label for="email" class="form-label"><b>Email</b></label>
+        <input type="email"
+               id="email"
+               name="email"
+               class="form-control"
+               placeholder="Enter your email"
+               autocomplete="email"
+               required
+               pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}">
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label"><b>Password</b></label>
+        <input type="password" class="form-control" id="password" name="password" required>
+      </div>
+      <div class="d-flex justify-content-center mt-4">
+        <button id="register" class="btn btn-secondary text-white btn-dark w-25" type="submit">Login</button>
+      </div>
+    </form>
+  </div>
+
+</div>
+<footer th:insert="~{components/footer :: footer}"></footer>
+</body>
+</html>

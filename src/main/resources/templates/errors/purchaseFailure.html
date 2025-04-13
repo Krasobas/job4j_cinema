@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{components/head:: head}"></head>
+<body class="d-flex flex-column min-vh-100">
+<header th:replace="~{components/header :: header('main')}"></header>
+
+<div class="container flex-grow-1 d-flex justify-content-center align-items-center">
+  <div class="card shadow-sm w-50">
+    <div class="card-body">
+      <h2 class="card-title text-center text-secondary">Oops...</h2>
+      <p class="card-text text-secondary text-center mt-5 mb-5" th:text="${error}"></p>
+      <div class="d-flex justify-content-center">
+        <a th:href="@{/sessions}" class="btn btn-secondary text-white btn-dark w-25">Try again</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer th:insert="~{components/footer :: footer}" class="mt-auto"></footer>
+</body>
+</html>

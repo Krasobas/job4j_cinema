@@ -9,4 +9,8 @@ public interface GenreRepository {
     Collection<Genre> findAll();
 
     Optional<Genre> findById(int id);
+
+    Optional<Genre> save(Genre genre);
+
+    boolean deleteById(int id);
 }

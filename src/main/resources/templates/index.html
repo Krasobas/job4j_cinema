@@ -1,9 +1,9 @@
 <!doctype html>
 <html lang="en">
-<head th:include="components/head :: head"></head>
-<body>
-<div th:replace="components/header :: header('main')"></div>
-<div class="container d-flex justify-content-center align-items-center" style="min-height: 100vh;">
+<head th:insert="~{components/head:: head}"></head>
+<body class="d-flex flex-column min-vh-100">
+<div th:replace="~{components/header :: header('main')}"></div>
+<div class="container flex-grow-1 d-flex justify-content-center align-items-center">
     <main role="main" class="w-50 text-center">
         <h1 class="cover-heading">Welcome to Job4j Cinema</h1>
         <p class="lead">
@@ -11,10 +11,10 @@
             <code>PostgreSQL</code>, <code>sql2o</code>, <code>Liquibase</code> and <code>Thymeleaf</code>.
         </p>
         <p class="lead">
-            <a th:href="@{/sessions/list}" class="btn btn-lg btn-secondary text-white btn-dark">Explore</a>
+            <a th:href="@{/sessions}" class="btn btn-lg btn-secondary text-white btn-dark">Explore</a>
         </p>
     </main>
 </div>
-<footer th:include="components/footer:: footer"></footer>
+<footer th:insert="~{components/footer:: footer}"></footer>
 </body>
 </html>

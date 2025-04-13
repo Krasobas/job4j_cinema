@@ -8,14 +8,14 @@
           <a class="nav-item nav-link" th:href="@{/sessions}" th:classappend="${activePage == 'sessions' ? 'active' : ''}">Showtimes</a>
           <a class="nav-item nav-link" th:href="@{/films}" th:classappend="${activePage == 'films' ? 'active' : ''}">Films</a>
         </div>
-  <!--      <div class="d-flex" th:if="${user.name == 'Guest'}">-->
-  <!--        <a class="nav-link text-secondary me-3" th:href="@{/users/register}">Sign in</a>-->
-  <!--        <a class="nav-link text-secondary" th:href="@{/users/login}">Log in</a>-->
-  <!--      </div>-->
-  <!--      <div class="d-flex" th:if="${user.name != 'Гость'}">-->
-  <!--        <a class="nav-link text-secondary me-3" href="#" th:text="${user.name}"></a>-->
-  <!--        <a class="nav-link text-secondary" th:href="@{/users/logout}">Exit</a>-->
-  <!--      </div>-->
+        <div class="d-flex navbar-nav" th:if="${user.fullName == 'Guest'}">
+          <a class="nav-item nav-link me-3" th:href="@{/users/register}" th:classappend="${activePage == 'register' ? 'active' : ''}">Sign in</a>
+          <a class="nav-item nav-link" th:href="@{/users/login}" th:classappend="${activePage == 'login' ? 'active' : ''}">Log in</a>
+        </div>
+        <div class="d-flex navbar-nav" th:if="${user.fullName != 'Guest'}">
+          <a class="nav-item nav-link me-3" th:href="@{/tickets/{userId}(userId=${user.id})}" th:classappend="${activePage == 'tickets' ? 'active' : ''}">My tickets</a>
+          <a class="nav-item nav-link" th:href="@{/users/logout}">Exit</a>
+        </div>
       </div>
     </div>
   </nav>
