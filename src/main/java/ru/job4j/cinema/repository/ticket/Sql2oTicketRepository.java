@@ -1,6 +1,7 @@
 package ru.job4j.cinema.repository.ticket;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import net.jcip.annotations.GuardedBy;
 import net.jcip.annotations.ThreadSafe;
 import org.springframework.stereotype.Repository;
@@ -10,6 +11,7 @@ import ru.job4j.cinema.model.Ticket;
 import java.util.Collection;
 import java.util.Optional;
 
+@Log4j2
 @Repository
 @ThreadSafe
 @AllArgsConstructor
@@ -78,6 +80,9 @@ public class Sql2oTicketRepository implements TicketRepository {
                         .getKey(Integer.class);
                 ticket.setId(generatedId);
                 return Optional.of(ticket);
+            } catch (Exception e) {
+                log.error(e.getMessage(), e);
+                return Optional.empty();
             }
         }
     }

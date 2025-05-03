@@ -49,7 +49,7 @@ public class UserController {
         var result = userService.save(user);
         if (result.isEmpty()) {
             model.addAttribute("error", "User with this email already exists");
-            return "errors/404";
+            return "/users/register";
         }
         return "redirect:/users/login";
     }

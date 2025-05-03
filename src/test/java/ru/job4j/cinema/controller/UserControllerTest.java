@@ -13,7 +13,6 @@ import java.util.Objects;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 class UserControllerTest {
@@ -88,7 +87,7 @@ class UserControllerTest {
     }
 
     @Test
-    void whenRegisterAndUserExistsThenRedirectToError() {
+    void whenRegisterAndUserExistsThenRedirectBackToRegistration() {
         var user = new User(1, "fullName", "email", "pwd");
         var model = new ConcurrentModel();
         var userCaptor = ArgumentCaptor.forClass(User.class);
@@ -96,7 +95,7 @@ class UserControllerTest {
 
         var got = controller.register(user, model);
 
-        assertThat(got).isEqualTo("errors/404");
+        assertThat(got).isEqualTo("/users/register");
         assertThat(userCaptor.getValue()).usingRecursiveComparison().isEqualTo(user);
         assertThat(model.getAttribute("error")).isEqualTo("User with this email already exists");
     }

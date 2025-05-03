@@ -8,6 +8,7 @@
   <a th:href="@{/}" class="btn-close position-absolute top-0 end-0 m-3"></a>
     <form class="card-body text-secondary" th:action="@{/users/register}" th:method="post">
       <h2 class="card-title text-center">Registration</h2>
+      <div th:if="${error}" class="alert alert-danger text-center" th:text="${error}"></div>
       <div class="mb-3">
         <label for="fullName" class="form-label"><b>Name</b></label>
         <input type="text" class="form-control" id="fullName" name="fullName" placeholder="John" required>

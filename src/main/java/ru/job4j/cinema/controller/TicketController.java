@@ -24,18 +24,12 @@ public class TicketController {
 
     @PostMapping("/buy")
     public String buy(@ModelAttribute Ticket ticket, Model model) {
-        try {
-            log.info(ticket);
-            var purchased = ticketService.save(ticket);
-            if (purchased.isEmpty()) {
-                throw new IllegalArgumentException("Ticket was not purchased");
-            }
-            return String.format("redirect:/tickets/%d", purchased.get().getUserId());
-        } catch (Exception e) {
-            log.error(e);
+        var purchased = ticketService.save(ticket);
+        if (purchased.isEmpty()) {
             model.addAttribute("error", "Couldn't book the selected seat. It’s probably taken.");
             return "errors/purchaseFailure";
         }
+        return String.format("redirect:/tickets/%d", purchased.get().getUserId());
     }
 
     @GetMapping("/buy/{sessionId}")

@@ -63,7 +63,7 @@ public class Sql2oFilmSessionRepository implements FilmSessionRepository {
                 filmSession.setId(generatedId);
                 return Optional.of(filmSession);
             } catch (Sql2oException e) {
-                log.error(e);
+                log.error(e.getMessage(), e);
             }
             return Optional.empty();
         }
